@@ -1,3 +1,3 @@
 HI, I am Atanu
-<hr>
+<br>
 welcome to my gitpage!!
