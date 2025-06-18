@@ -1,2 +1,3 @@
-# first-github
-first repository
+HI, I am Atanu
+<hr>
+welcome to my gitpage!!
