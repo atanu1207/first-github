@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Doe - Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Chosen Palette: "Cyber Glow" - A modern, high-contrast dark theme. It uses a deep slate background with vibrant cyan as the primary accent and fuchsia for secondary highlights, creating a futuristic and energetic feel that complements the AI theme.
+    Application Structure Plan: The structure remains a user-friendly single-page application. The key update is the addition of on-scroll animations for each section, creating a more dynamic and engaging user flow. The project modal remains the central point of interaction, now styled with the new "Cyber Glow" theme to maintain a cohesive, modern experience.
+    Visualization & Content Choices: 
+    - Report Info: Developer skills & background -> Goal: Inform -> Presentation: Retains the effective two-column layout but is enhanced with the new color scheme and on-scroll fade-in animations for a more polished presentation.
+    - Report Info: Project case studies -> Goal: Showcase & Organize -> Presentation: Project cards now feature a subtle glow hover effect. The grid fades in as the user scrolls, drawing attention to the work.
+    - Report Info: AI project review feature -> Goal: Engage & "Wow" -> Presentation: The AI Analyzer is restyled with the dark theme, using cyan accents for interactive elements. The streaming text effect is now more impactful against the dark background, reinforcing the high-tech aesthetic.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+        }
+        .modal-bg {
+            background-color: rgba(15, 23, 42, 0.8); /* slate-900 with opacity */
+            backdrop-filter: blur(4px);
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+        }
+        .modal-active .modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        .ai-output-container::after {
+            content: '▋';
+            animation: blink 1s step-end infinite;
+            opacity: 1;
+        }
+        .ai-output-container.finished::after {
+            animation: none;
+            opacity: 0;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .btn-group button.active {
+            background-color: #06b6d4; /* cyan-500 */
+            color: white;
+            border-color: #06b6d4;
+        }
+        .hero-bg {
+            background: radial-gradient(ellipse at bottom, rgba(6, 182, 212, 0.15), transparent 60%);
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .glow-on-hover:hover {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), 0 0 5px rgba(6, 182, 212, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300 antialiased">
+
+    <header class="bg-slate-900/80 backdrop-blur-lg sticky top-0 z-40 border-b border-slate-700/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold text-white">Alex Doe</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="text-slate-300 hover:text-cyan-400 transition-colors">About</a>
+                <a href="#projects" class="text-slate-300 hover:text-cyan-400 transition-colors">Projects</a>
+                <a href="#contact" class="text-slate-300 hover:text-cyan-400 transition-colors">Contact</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-slate-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 px-6 pb-4">
+            <a href="#about" class="block py-2 text-slate-300 hover:text-cyan-400">About</a>
+            <a href="#projects" class="block py-2 text-slate-300 hover:text-cyan-400">Projects</a>
+            <a href="#contact" class="block py-2 text-slate-300 hover:text-cyan-400">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero-bg container mx-auto px-6 py-24 md:py-32 text-center fade-in-section">
+            <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">
+                <span class="bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-transparent bg-clip-text">Creative Frontend Developer</span>
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">I build modern, responsive, and interactive web applications with a focus on user experience and clean code. This portfolio itself is a testament to that, featuring an AI-powered project analyzer.</p>
+            <a href="#projects" class="mt-8 inline-block bg-cyan-500 text-white font-semibold px-8 py-3 rounded-lg shadow-lg shadow-cyan-500/20 hover:bg-cyan-600 transition-all transform hover:scale-105 glow-on-hover">View My Work</a>
+        </section>
+
+        <section id="about" class="bg-slate-800/50 py-24 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">About Me</h2>
+                    <p class="mt-2 text-slate-400">A passionate developer crafting digital experiences.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Who I Am</h3>
+                        <p class="mb-4 text-slate-400">I am a frontend developer with a knack for turning complex problems into beautiful, intuitive interfaces. My journey in tech started with a fascination for how things work, which evolved into a passion for building applications that are not only functional but also delightful to use.</p>
+                        <p class="text-slate-400">I thrive in environments where I can collaborate with a team, learn new technologies, and contribute to meaningful projects. My approach is rooted in a strong understanding of modern development practices, including agile methodologies, version control, and writing clean, maintainable code.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">My Skills</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">JavaScript (ES6+)</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">TypeScript</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">React</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">Next.js</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">Tailwind CSS</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">Node.js</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">API Integration</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">Git & GitHub</span>
+                            <span class="bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full font-medium">UI/UX Principles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-24 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Projects Showcase</h2>
+                    <p class="mt-2 text-slate-400">Here are a few projects I've worked on. Click to learn more and try the AI Analyzer.</p>
+                </div>
+                <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="bg-slate-900 border-t border-slate-700/50 text-slate-400 py-12 fade-in-section">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold text-white">Get In Touch</h3>
+            <p class="mt-2 max-w-lg mx-auto">I'm currently open to new opportunities. Feel free to reach out!</p>
+            <div class="mt-6 flex justify-center space-x-6">
+                <a href="mailto:alex.doe@email.com" class="hover:text-cyan-400 transition-colors">alex.doe@email.com</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+            </div>
+            <p class="mt-8 text-sm text-slate-500">&copy; 2025 Alex Doe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="project-modal" class="modal-bg fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-slate-800 w-full max-w-4xl max-h-[90vh] rounded-lg shadow-2xl overflow-hidden flex flex-col border border-slate-700">
+            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+                <button id="modal-close-btn" class="text-slate-400 text-3xl leading-none hover:text-white">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <img id="modal-image" src="https://placehold.co/600x400/0f172a/94a3b8?text=Project+Image" alt="Project screenshot" class="rounded-lg shadow-md w-full mb-4 border-2 border-slate-700">
+                        <div id="modal-tags" class="flex flex-wrap gap-2 mb-6"></div>
+                        <div class="flex space-x-4">
+                            <a id="modal-live-link" href="#" target="_blank" class="flex-1 text-center bg-cyan-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-cyan-600 transition-colors glow-on-hover">View Live Demo</a>
+                            <a id="modal-code-link" href="#" target="_blank" class="flex-1 text-center bg-slate-700 text-white font-semibold px-6 py-2 rounded-lg hover:bg-slate-600 transition-colors">View Source Code</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="modal-description"></div>
+                        
+                        <div class="mt-6 bg-slate-900/50 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-lg font-semibold text-white mb-3">AI-Powered Project Analysis</h4>
+                            <p class="text-sm text-slate-400 mb-4">Select an analysis mode and let a simulated Gemini model review this project's assets. This showcases modern AI integration capabilities.</p>
+                            <div class="btn-group flex border border-slate-600 rounded-md mb-4">
+                                <button data-mode="readme" class="ai-mode-btn flex-1 px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 transition-colors rounded-l-md active">README</button>
+                                <button data-mode="ux" class="ai-mode-btn flex-1 px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 transition-colors border-l border-r border-slate-600">UX</button>
+                                <button data-mode="code" class="ai-mode-btn flex-1 px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 transition-colors rounded-r-md">Code</button>
+                            </div>
+                            <button id="run-analysis-btn" class="w-full bg-fuchsia-600 text-white font-semibold py-2 rounded-lg hover:bg-fuchsia-700 transition-colors disabled:bg-slate-600 disabled:cursor-not-allowed shadow-lg shadow-fuchsia-600/20">Run Analysis</button>
+                            <div class="mt-4">
+                                <div id="ai-output" class="ai-output-container bg-slate-900 text-slate-300 font-mono text-sm p-4 rounded-md h-64 overflow-y-auto whitespace-pre-wrap border border-slate-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projectsData = [
+            {
+                id: 'proj1',
+                title: 'Interactive Data Dashboard',
+                category: 'Data Visualization',
+                imageUrl: 'https://placehold.co/600x400/083344/93c5fd?text=Dashboard+UI',
+                tags: ['React', 'D3.js', 'API', 'Tailwind CSS'],
+                liveUrl: '#',
+                codeUrl: '#',
+                description: `
+                    <h4 class="text-xl font-semibold mb-2 text-white">Motivation</h4>
+                    <p class="mb-4 text-slate-400">The goal was to create a highly interactive and real-time dashboard to help businesses visualize complex sales data, moving beyond static spreadsheets.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Process</h4>
+                    <p class="mb-4 text-slate-400">Built with React for a component-based architecture and D3.js for powerful, custom visualizations. A Node.js backend serves data from a REST API. Tailwind CSS was used for rapid, responsive styling.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Outcome</h4>
+                    <p class="text-slate-400">The result is a performant, user-friendly dashboard that reduced data analysis time by 40% for test users and provided actionable insights through dynamic charts and filters.</p>`,
+                aiContent: {
+                    readme: `**README Analysis:**
+
+* **Strengths:**
+    * **Clear Title & Description:** The project's purpose is immediately clear.
+    * **Tech Stack Listed:** Good job listing the technologies used.
+* **Areas for Improvement:**
+    * **Installation Steps:** The instructions could be more detailed. Consider adding commands for both \`npm\` and \`yarn\`.
+    * **Environment Variables:** There's no mention of a \`.env.example\` file. This is crucial for anyone trying to run the project locally.
+    * **Usage Section:** A section explaining how to use the dashboard's features would be very helpful.`,
+                    ux: `**UX Heuristic Evaluation:**
+
+* **Visibility of System Status:** (Adheres) The app likely uses loading spinners and feedback messages, keeping the user informed.
+* **Consistency and Standards:** (Adheres) The consistent layout and component reuse across the app follows platform conventions.
+* **Aesthetic and Minimalist Design:** (Could Improve) While functional, some charts could be simplified to remove visual clutter and improve focus on key data points.
+* **Help and Documentation:** (Adheres) The presence of tooltips on charts provides helpful, context-sensitive information.`,
+                    code: `**Code Snippet Review:**
+
+\`\`\`javascript
+function fetchData(url) {
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      // update state
+    })
+    .catch(err => console.log(err))
+}
+\`\`\`
+
+* **Clarity & Readability:** The code is straightforward and easy to understand.
+* **Error Handling:** The \`.catch\` block only logs the error to the console. In a real application, this should be improved to show a user-facing error message.
+* **Modern Syntax:** Consider using \`async/await\` syntax for cleaner asynchronous code flow. It can make error handling more robust with \`try/catch\` blocks.
+* **Type Safety:** For a production app, adding TypeScript would prevent potential runtime errors by ensuring the response data matches the expected shape.`
+                }
+            },
+            {
+                id: 'proj2',
+                title: 'E-Commerce Platform',
+                category: 'Full-Stack Web App',
+                imageUrl: 'https://placehold.co/600x400/581c87/e9d5ff?text=E-Commerce+Store',
+                tags: ['Next.js', 'Stripe', 'GraphQL', 'PostgreSQL'],
+                liveUrl: '#',
+                codeUrl: '#',
+                description: `
+                    <h4 class="text-xl font-semibold mb-2 text-white">Motivation</h4>
+                    <p class="mb-4 text-slate-400">To build a complete, full-stack e-commerce solution from the ground up, handling everything from product display to secure payment processing.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Process</h4>
+                    <p class="mb-4 text-slate-400">Next.js was chosen for its hybrid rendering capabilities (SSR/SSG), ensuring fast page loads. Stripe integration handles payments securely. A GraphQL API provides a flexible data layer, backed by a PostgreSQL database.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Outcome</h4>
+                    <p class="text-slate-400">A feature-rich online store with a fully functional shopping cart, user authentication, and order management system. Achieved a 95+ Lighthouse performance score.</p>`,
+                aiContent: {
+                    readme: `**README Analysis:**
+
+* **Strengths:**
+    * **Comprehensive Setup:** Excellent, detailed instructions for both frontend and backend setup.
+    * **Features List:** The bulleted list of features is clear and gives a great overview of the project's capabilities.
+* **Areas for Improvement:**
+    * **Visuals:** Adding a screenshot or a GIF of the application in action would make the README much more engaging.
+    * **Deployment:** A section on how to deploy the application to a platform like Vercel or Netlify would add significant value.`,
+                    ux: `**UX Heuristic Evaluation:**
+
+* **User Control and Freedom:** (Adheres) The ability to easily add/remove items from the cart and a clear checkout process gives users control.
+* **Error Prevention:** (Adheres) Form validation on the checkout page helps prevent users from making mistakes.
+* **Recognition Rather Than Recall:** (Adheres) Showing recently viewed items helps users easily navigate back to products they are interested in.
+* **Flexibility and Efficiency of Use:** (Could Improve) Adding a "quick view" option for products directly from the category page could speed up the browsing process for expert users.`,
+                    code: `**Code Snippet Review:**
+
+\`\`\`javascript
+const product = await prisma.product.findUnique({
+  where: { id: productId },
+});
+if (!product) {
+  res.status(404).json({ message: 'Product not found' });
+}
+\`\`\`
+
+* **Robustness:** The code correctly checks if a product exists and returns a 404 error if not found. This is excellent practice.
+* **Database Queries:** The use of an ORM like Prisma simplifies database interactions and makes the code more readable.
+* **Security:** Ensure that \`productId\` is properly sanitized or validated before being used in the query to prevent potential injection attacks, although Prisma helps mitigate this.
+* **Separation of Concerns:** This logic should ideally be in a service or controller layer, separate from the direct request/response handling, for better organization in a larger application.`
+                }
+            },
+            {
+                id: 'proj3',
+                title: 'AI-Powered Writing Assistant',
+                category: 'AI / Machine Learning',
+                imageUrl: 'https://placehold.co/600x400/3b0764/d8b4fe?text=AI+Writer+App',
+                tags: ['Next.js', 'OpenAI API', 'TypeScript', 'Serverless'],
+                liveUrl: '#',
+                codeUrl: '#',
+                description: `
+                    <h4 class="text-xl font-semibold mb-2 text-white">Motivation</h4>
+                    <p class="mb-4 text-slate-400">To explore the capabilities of large language models (LLMs) by creating a tool that assists users with creative and professional writing tasks.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Process</h4>
+                    <p class="mb-4 text-slate-400">A Next.js frontend provides the user interface. The core logic is handled by a secure serverless API route that communicates with the OpenAI API. This protects the API key and manages prompts. The UI features a streaming response for a real-time, conversational feel.</p>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Outcome</h4>
+                    <p class="text-slate-400">An intuitive application that can generate blog post ideas, summarize text, and rephrase sentences. The project demonstrates secure API key management and advanced frontend techniques like response streaming.</p>`,
+                aiContent: {
+                    readme: `**README Analysis:**
+
+* **Strengths:**
+    * **API Key Instructions:** The instructions for setting up the \`.env.local\` file are very clear and emphasize security, which is excellent.
+    * **Architecture Diagram:** A simple text-based diagram explaining the client -> serverless function -> AI API flow would be a fantastic addition.
+* **Areas for Improvement:**
+    * **Live Demo Link:** Ensure the link to the live demo is prominent at the top of the README.
+    * **Prompt Engineering:** Briefly mentioning the approach to prompt engineering in the README would showcase a deeper understanding of working with LLMs.`,
+                    ux: `**UX Heuristic Evaluation:**
+
+* **Visibility of System Status:** (Adheres) The streaming text output is a perfect example of this heuristic, showing the user that the system is actively working.
+* **Match Between System and the Real World:** (Adheres) The conversational interface speaks the user's language and follows real-world conventions.
+* **Help Users Recognize, Diagnose, and Recover from Errors:** (Could Improve) If the API call fails, does the UI show a generic "Error" message or a helpful one like "Could not connect to the AI service. Please try again."? Specificity is key.
+* **Aesthetic and Minimalist Design:** (Adheres) The clean, focused interface with a simple input and output area avoids distracting the user from the primary task.`,
+                    code: `**Code Snippet Review:**
+
+\`\`\`typescript
+// pages/api/generate.ts
+const response = await openai.createCompletion(...);
+res.status(200).json({ result: response.data.choices[0].text });
+\`\`\`
+
+* **Functionality:** The code correctly calls the OpenAI API and sends back a response.
+* **Streaming vs. Blocking:** This implementation waits for the entire AI response before sending it to the client. For a better user experience, this should be refactored to use the streaming API, sending data in chunks as it's received.
+* **Error Handling:** A \`try/catch\` block should wrap the API call to handle potential network errors or API failures gracefully.
+* **Configuration:** Model parameters like \`temperature\` and \`max_tokens\` should be configurable or clearly defined constants, not magic numbers inside the function call.`
+                }
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectGrid = document.getElementById('project-grid');
+            const modal = document.getElementById('project-modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            const modalTags = document.getElementById('modal-tags');
+            const modalLiveLink = document.getElementById('modal-live-link');
+            const modalCodeLink = document.getElementById('modal-code-link');
+            const modalDescription = document.getElementById('modal-description');
+            
+            const runAnalysisBtn = document.getElementById('run-analysis-btn');
+            const aiOutput = document.getElementById('ai-output');
+            const aiModeButtons = document.querySelectorAll('.ai-mode-btn');
+
+            let currentProject = null;
+            let currentAiMode = 'readme';
+            let typingInterval = null;
+
+            projectsData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 cursor-pointer border border-slate-700 glow-on-hover';
+                card.innerHTML = `
+                    <img src="${project.imageUrl}" alt="${project.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                        <p class="text-slate-400 mt-2">${project.category}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => openModal(project));
+                projectGrid.appendChild(card);
+            });
+
+            function openModal(project) {
+                currentProject = project;
+                modalTitle.textContent = project.title;
+                modalImage.src = project.imageUrl;
+                modalImage.alt = project.title;
+                modalLiveLink.href = project.liveUrl;
+                modalCodeLink.href = project.codeUrl;
+                modalDescription.innerHTML = project.description;
+                
+                modalTags.innerHTML = '';
+                project.tags.forEach(tag => {
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'bg-cyan-400/10 text-cyan-300 px-2 py-1 rounded text-sm font-medium';
+                    tagEl.textContent = tag;
+                    modalTags.appendChild(tagEl);
+                });
+
+                resetAiAnalyzer();
+                modal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+                setTimeout(() => modal.classList.add('modal-active'), 10);
+            }
+
+            function closeModal() {
+                modal.classList.remove('modal-active');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 300);
+            }
+
+            function resetAiAnalyzer() {
+                if (typingInterval) clearInterval(typingInterval);
+                aiOutput.textContent = '';
+                aiOutput.classList.remove('finished');
+                runAnalysisBtn.disabled = false;
+                runAnalysisBtn.textContent = 'Run Analysis';
+                currentAiMode = 'readme';
+                aiModeButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === 'readme');
+                });
+            }
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            aiModeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (runAnalysisBtn.disabled) return;
+                    currentAiMode = btn.dataset.mode;
+                    aiModeButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            runAnalysisBtn.addEventListener('click', () => {
+                if (!currentProject) return;
+
+                runAnalysisBtn.disabled = true;
+                runAnalysisBtn.textContent = 'Analyzing...';
+                aiOutput.textContent = '';
+                aiOutput.classList.remove('finished');
+                if (typingInterval) clearInterval(typingInterval);
+
+                const textToStream = currentProject.aiContent[currentAiMode];
+                let i = 0;
+
+                setTimeout(() => {
+                    typingInterval = setInterval(() => {
+                        if (i < textToStream.length) {
+                            aiOutput.textContent += textToStream.charAt(i);
+                            i++;
+                            aiOutput.scrollTop = aiOutput.scrollHeight;
+                        } else {
+                            clearInterval(typingInterval);
+                            runAnalysisBtn.disabled = false;
+                            runAnalysisBtn.textContent = 'Run Analysis Again';
+                            aiOutput.classList.add('finished');
+                        }
+                    }, 10);
+                }, 500);
+            });
+
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Intersection Observer for fade-in animations
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
